@@ -1,6 +1,42 @@
 # Mapbox
 MapBox (documentation en français)
 
+# Simple carte
+
+Afficher une carte (vous pouvez personnaliser l'emprise, le zoom et le fond de carte
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset=utf-8 />
+        
+        <title>Single marker</title>
+        
+        <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
+        
+        <style>
+        body { margin:10; padding:0; }
+        #map { width: 1000px; height:500px; margin:0; padding:0; background: black;}
+        </style>
+        
+        </head>
+        
+        <body>
+        
+        <div id='map'></div>
+        
+        <script>
+        
+        L.mapbox.accessToken = 'pk.eyJ1IjoibmluYW5vdW4iLCJhIjoiSkN4dndmTSJ9.6plStO7M5AuAbDa6O1m54A';
+        
+        var map = L.mapbox.map('map', 'mapbox.satellite').setView([20, 20], 3);
+        
+        </script>
+        
+        </body>
+        </html>
+
 # Ajouter des fonds de carte
 
         <!DOCTYPE html>
