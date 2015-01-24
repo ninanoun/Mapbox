@@ -336,3 +336,72 @@ Pemrt d'afficher deux types de cartes simultanément
         </html>
 
 
+# Afficher et structurer des WMS 
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset=utf-8 />
+        <title>A simple map</title>
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
+        
+        <style>
+          body { margin:10; padding:10; }
+          #map {  width: 1000px; height:600px; margin:10; padding:10; background: black;}
+        </style>
+        </head>
+        <body>
+        
+        
+        <div id='map'></div>
+        <script>
+        
+        L.mapbox.accessToken = 'pk.eyJ1IjoibmluYW5vdW4iLCJhIjoiSkN4dndmTSJ9.6plStO7M5AuAbDa6O1m54A';
+        
+        var map = L.mapbox.map('map').setView([48.10,-1.66], 13);
+        
+        var baselayers = {
+              Streets: L.mapbox.tileLayer('mapbox.streets'),
+              Dark: L.mapbox.tileLayer('mapbox.dark'),
+        	  wheatpaste: L.mapbox.tileLayer('mapbox.wheatpaste'),
+        	  outdoors: L.mapbox.tileLayer('mapbox.outdoors'),
+        	  emerald: L.mapbox.tileLayer('mapbox.high-contrast')};  
+         
+        baselayers.Dark.addTo(map);
+        
+        var wms = {
+        
+        Orthophotographie: L.tileLayer.wms('http://geobretagne.fr/geoserver/photo/wms?', { 
+          format: 'image/png',
+          transparent: true,
+          layers: 'ortho-ouverte'
+        }),
+        
+        Lignes: L.tileLayer.wms('http://geobretagne.fr/geoserver/rennesmetropole/wms?', { 
+          format: 'image/png',
+          transparent: true,
+          layers: 'tcu_metro_trace_axe'
+        }),
+        
+        Quartiers: L.tileLayer.wms('http://geobretagne.fr/geoserver/rennesmetropole/wms?', { 
+          format: 'image/png',
+          transparent: true,
+          layers: 'quartiers_vdr'
+        }),
+        
+        Stations: L.tileLayer.wms('http://geobretagne.fr/geoserver/rennesmetropole/wms?', { 
+          format: 'image/png',
+          transparent: true,
+          layers: 'star_arret_logique'
+        })
+        };
+        
+          L.control.layers(baselayers, wms).addTo(map);
+        
+        </script>
+        
+        </body>
+        </html>
+
