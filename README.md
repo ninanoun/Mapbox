@@ -70,19 +70,67 @@ Afficher une carte (vous pouvez personnaliser l'emprise, le zoom et le fond de c
               satellite: L.mapbox.tileLayer('mapbox.satellite'),
         	  wheatpaste: L.mapbox.tileLayer('mapbox.wheatpaste'),
         	  outdoors: L.mapbox.tileLayer('mapbox.outdoors'),
-        	  emerald: L.mapbox.tileLayer('mapbox.high-contrast')
-          };  
-          
+        	  emerald: L.mapbox.tileLayer('mapbox.high-contrast') };  
           baselayers.Streets.addTo(map);
         
-          
          // Selecteur de couches
          
           L.control.layers(baselayers).addTo(map);
+        </script>
+        
+        </body>
+        </html>
 
+# Ajouter des marqueurs en GeoJSON
 
-</script>
-
-</body>
-</html>
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset=utf-8 />
+        <title>Single marker</title>
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
+        <style>
+        body { margin:10; padding:0; }
+        #map { width: 500px; height:500px; margin:0; padding:0; background: black;}
+        </style>
+        </head>
+        <body>
+        
+        <div id='map'></div>
+        
+        <script>
+        L.mapbox.accessToken = 'pk.eyJ1IjoibmluYW5vdW4iLCJhIjoiSkN4dndmTSJ9.6plStO7M5AuAbDa6O1m54A';
+        var map = L.mapbox.map('map', 'examples.map-i86nkdio')
+            .setView([48.119671, -1.702769], 17);
+        
+        L.mapbox.featureLayer({
+            type: 'FeatureCollection',
+            features: [{
+             type: 'Feature',
+                properties: {
+                    title: 'Salle A007',
+                    'marker-color': '#f86767',
+                    'marker-size': 'large',
+                    'marker-symbol': 'star',
+        			url: 'http://en.wikipedia.org/wiki/Washington,_D.C.'},
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-1.703383, 48.118407]}},
+            {type: 'Feature',
+                properties: {
+                    title: 'BU',
+                    'marker-color': '#7ec9b1',
+                    'marker-size': 'large',
+                    'marker-symbol': 'star',},
+                geometry: {
+                    type: 'Point',
+                    coordinates: [-1.701353, 48.120634]}}]
+        }).addTo(map);
+        
+        </script>
+        
+        </body>
+        </html>
 
