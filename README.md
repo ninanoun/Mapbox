@@ -214,3 +214,66 @@ Afficher une carte (vous pouvez personnaliser l'emprise, le zoom et le fond de c
         </body>
         </html>
 
+# Swipe layer 
+
+Permet de visualiser deu couches par glissement
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset=utf-8 />
+        <title>Swipe between layers</title>
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
+        <style>
+          body { margin:0; padding:0; }
+          #map { position:absolute; top:0; bottom:0; width:100%; }
+        </style>
+        </head>
+        <body>
+        
+        <style>
+        .range {
+          position:absolute;
+          width:100%;
+          }
+        .leaflet-top .leaflet-control-zoom {
+          top:20px;
+          }
+        </style>
+        
+        <div id='map'></div>
+        <input id='range' class='range' type='range' min='0' max='1.0' step='any' />
+        
+        <script>
+        L.mapbox.accessToken = 'pk.eyJ1IjoibmluYW5vdW4iLCJhIjoiSkN4dndmTSJ9.6plStO7M5AuAbDa6O1m54A';
+        var map = L.mapbox.map('map');
+        L.mapbox.tileLayer('mapbox.satellite').addTo(map);
+        
+        var imagery = L.tileLayer.wms('http://geobretagne.fr/geoserver/photo/wms?', { 
+          format: 'image/png',
+          transparent: true,
+          layers: 'satellite-ancien',
+          attribution: "Image de 1949" 
+        }).addTo(map);
+        
+        var range = document.getElementById('range');
+        
+        function clip() {
+          var nw = map.containerPointToLayerPoint([0, 0]),
+              se = map.containerPointToLayerPoint(map.getSize()),
+              clipX = nw.x + (se.x - nw.x) * range.value;
+        
+          imagery.getContainer().style.clip = 'rect(' + [nw.y, clipX, se.y, nw.x].join('px,') + 'px)';}
+        
+        range['oninput' in range ? 'oninput' : 'onchange'] = clip;
+        map.on('move', clip);
+        map.setView([48.10,-1.70], 16);
+        
+        clip();
+        </script>
+        
+        </body>
+        </html>
+
