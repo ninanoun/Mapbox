@@ -277,3 +277,62 @@ Permet de visualiser deu couches par glissement
         </body>
         </html>
 
+# Sync Map
+
+Pemrt d'afficher deux types de cartes simultanément 
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset=utf-8 />
+        <title>Sync Maps</title>
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
+        <style>
+          body { margin:10; padding:10; }
+        </style>
+        </head>
+        <body>
+        
+        <div id='map1'></div>
+        <div id='map2'></div>
+        
+        <style>
+          #map1 { position:absolute; top:0; bottom:0; left:0; right:50%; }
+          #map2 { position:absolute; top:0; bottom:0; left:50%; right:0; }
+        </style>
+        
+        <script>
+        L.mapbox.accessToken = 'pk.eyJ1IjoibmluYW5vdW4iLCJhIjoiSkN4dndmTSJ9.6plStO7M5AuAbDa6O1m54A';
+        
+        var map1 = L.mapbox.map('map1', 'mapbox.outdoors')
+            .setView([39.87, -75.24], 14);
+        
+        	var map2 = L.mapbox.map('map2', 'mapbox.satellite')
+            .setView([39.87, -75.24], 14);
+        
+        map1.on('moveend', follow).on('zoomend', follow);
+        map2.on('moveend', follow).on('zoomend', follow);
+        
+        var quiet = false;
+        function follow(e) {
+            if (quiet) return;
+            quiet = true;
+            if (e.target === map1) sync(map2, e);
+            if (e.target === map2) sync(map1, e);
+            quiet = false;
+        }
+        
+        function sync(map, e) {
+            map.setView(e.target.getCenter(), e.target.getZoom(), {
+                animate: false,
+                reset: true
+            });
+        }
+        </script>
+        
+        </body>
+        </html>
+
+
