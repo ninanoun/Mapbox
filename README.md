@@ -181,3 +181,36 @@ Afficher une carte (vous pouvez personnaliser l'emprise, le zoom et le fond de c
         </body>
         </html>
 
+# Mini carte
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset=utf-8 />
+        <title>A simple map</title>
+        <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+        <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css' rel='stylesheet' />
+        <style>
+        body { margin:10; padding:10; }
+        #map { width: 1200px; height:600px; margin:10; padding:10; background: black;}
+        </style>
+        </head>
+        <body>
+        
+        <script src='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-minimap/v1.0.0/Control.MiniMap.js'></script>
+        <link href='https://api.tiles.mapbox.com/mapbox.js/plugins/leaflet-minimap/v1.0.0/Control.MiniMap.css' rel='stylesheet'/>
+        <div id='map'></div>
+        <script>
+        
+        L.mapbox.accessToken = 'pk.eyJ1IjoibmluYW5vdW4iLCJhIjoiSkN4dndmTSJ9.6plStO7M5AuAbDa6O1m54A';
+        var map = L.mapbox.map('map', 'mapbox.streets').setView([41, 32], 8);
+        
+        var miniMap = new L.Control.MiniMap(L.mapbox.tileLayer('mapbox.outdoors'))
+                    .addTo(map);
+        
+        </script>
+        
+        </body>
+        </html>
+
