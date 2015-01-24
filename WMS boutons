@@ -1,0 +1,155 @@
+# Carte Mapbox WMS avec Boutons
+
+
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+    <html>
+    <head>
+    
+      <meta charset="utf-8">
+      <title>Displaying WMS layers</title>
+    
+    
+      <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    
+      <script src="https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.js"></script>
+      <link href="https://api.tiles.mapbox.com/mapbox.js/v2.1.4/mapbox.css" rel="stylesheet">
+    
+      <style>
+    body { margin:0; padding:0; }
+    #map { width: 1500px; height:550px; margin:10; padding:10; background: black;}
+      </style>
+      
+      <style>
+    .menu-ui {
+    background:#fff;
+    position:absolute;
+    top:30px;right:10px;
+    z-index:1;
+    border-radius:1px;
+    width:40px;
+    border:1px solid rgba(0,0,0,0.4);
+    }
+    .menu-ui a {
+    font-size:17px;
+    color:#000000;
+    display:block;
+    margin:5;padding:0;
+    padding:20px;
+    text-decoration:none;
+    border-bottom:1px solid rgba(0,0,0,0.25);
+    text-align:center;
+    }
+    .menu-ui a:first-child {
+    border-radius:3px 3px 0 0;
+    }
+    .menu-ui a:last-child {
+    border:none;
+    border-radius:0 0 3px 3px;
+    }
+    .menu-ui a:hover {
+    background:#f8f8f8;
+    color:#404040;
+    }
+    .menu-ui a.active {
+    background:#3887BE;
+    color:#FFF;
+    }
+    .menu-ui a.active:hover {
+    background:#3074a4;
+    }
+      </style>
+    </head>
+    
+    
+    <body>
+    
+    <div style="text-align: left; height: 109px;">
+    <table style="text-align: left; width: 1529px; height: 108px; background-color: rgb(0, 151, 198);" border="1" cellpadding="2" cellspacing="2">
+    
+      <tbody>
+    
+        <tr>
+    
+          <td style="height: 102px; width: 1334px;"><big style="font-weight: bold;"><big><big><big><span style="font-family: Corbel; color: rgb(255, 255, 255);">&nbsp;WMS
+    dans Mapbox.js</span></big></big></big></big></td>
+    
+          <td style="width: 175px; background-color: rgb(255, 255, 255);"><img style="width: 184px; height: 73px;" alt="" src="https://fondation.univ-rennes1.fr/sites/default/files/imce/blocs/partenaires/logo_RennesMetropole.png"></td>
+    
+        </tr>
+    
+      </tbody>
+    </table>
+    
+    <br>
+    
+    </div>
+    
+    <div style="font-weight: bold;" id="map"> <nav style="height: 269px; width: 216px; top: 8px; left: 92px;" id="map-ui" class="menu-ui"> 
+    <a href="#" class="active" id="orthophotographie">Orthophotographie</a> <big><big>
+    <a href="#" class="active" id="ligne">Lignes de métro</a></big></big>
+    <a href="#" class="active" id="quartiers">Quartiers</a>
+    <a href="#" class="active" id="arrets">Stations de métro</a>
+    </nav></div>
+    
+    <script>
+    L.mapbox.accessToken = 'pk.eyJ1IjoibmluYW5vdW4iLCJhIjoiSkN4dndmTSJ9.6plStO7M5AuAbDa6O1m54A';
+    var map = L.mapbox.map('map', 'mapbox.dark').setView([48.11,-1.66], 13);
+    
+    // Ajouts des WMS
+    
+    var orthophotographie = L.tileLayer.wms('http://geobretagne.fr/geoserver/photo/wms?', { 
+      format: 'image/png',
+      transparent: true,
+      layers: 'ortho-ouverte'
+    }).addTo(map);
+    
+    var quartiers = L.tileLayer.wms('http://geobretagne.fr/geoserver/rennesmetropole/wms?', { 
+      format: 'image/png',
+      transparent: true,
+      layers: 'quartiers_vdr'
+    }).addTo(map);
+    
+    var arrets = L.tileLayer.wms('http://geobretagne.fr/geoserver/rennesmetropole/wms?', { 
+      format: 'image/png',
+      transparent: true,
+      layers: 'star_arret_logique'
+    }).addTo(map);
+    
+    var ligne = L.tileLayer.wms('http://geobretagne.fr/geoserver/rennesmetropole/wms?', { 
+      format: 'image/png',
+      transparent: true,
+      layers: 'tcu_metro_trace_axe'
+    }).addTo(map);
+    
+    // Layer switcher
+    
+    document.getElementById('orthophotographie').onclick = function () {
+        var enable = this.className !== 'active';
+        orthophotographie.setOpacity(enable ? 1 : 0);
+        this.className = enable ? 'active' : '';
+        return false;
+    };
+    
+    document.getElementById('quartiers').onclick = function () {
+        var enable = this.className !== 'active';
+        quartiers.setOpacity(enable ? 1 : 0);
+        this.className = enable ? 'active' : '';
+        return false;
+    };
+    
+    document.getElementById('ligne').onclick = function () {
+        var enable = this.className !== 'active';
+        ligne.setOpacity(enable ? 1 : 0);
+        this.className = enable ? 'active' : '';
+        return false;
+    };
+    
+    document.getElementById('arrets').onclick = function () {
+        var enable = this.className !== 'active';
+        arrets.setOpacity(enable ? 1 : 0);
+        this.className = enable ? 'active' : '';
+        return false;
+    };
+    </script>
+    </body>
+    </html>
